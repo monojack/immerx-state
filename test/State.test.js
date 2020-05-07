@@ -121,18 +121,18 @@ test('`state$.update()` correctly updates the state', t => {
     })
 })
 
-test('`state$.select()` returns a new observable `subState$`', t => {
+test('`state$.isolate()` returns a new observable `subState$`', t => {
   const state$ = new State(initialState)
 
-  const subState$ = state$.select('foo')
+  const subState$ = state$.isolate('foo')
   t.true(isObservable(subState$))
 })
 
-test('`state$.select()` returns a `subState$` that only emits when data in that sub-state is updated', t => {
+test('`state$.isolate()` returns a `subState$` that only emits when data in that sub-state is updated', t => {
   t.plan(1)
 
   const state$ = new State(initialState)
-  const subState$ = state$.select('foo')
+  const subState$ = state$.isolate('foo')
 
   // this should only emit once ( t.plan(1) ), no matter how many times we update `state.baz`
   from(subState$).subscribe({
@@ -146,7 +146,7 @@ test('`state$.select()` returns a `subState$` that only emits when data in that 
 
 test('subscribers to the new `subState$` are added to the state$ subscriber list and unsubscribe correctly', t => {
   const state$ = new State(initialState)
-  const subState$ = state$.select('foo')
+  const subState$ = state$.isolate('foo')
   const subscription = from(subState$).subscribe({})
 
   t.is(subState$._subscribers.size, 0)
@@ -157,9 +157,9 @@ test('subscribers to the new `subState$` are added to the state$ subscriber list
   t.is(state$._subscribers.size, 0)
 })
 
-test('`state$.select()` returns a `subState$` that when subscribed to returns a subscription', t => {
+test('`state$.isolate()` returns a `subState$` that when subscribed to returns a subscription', t => {
   const state$ = new State(initialState)
-  const subState$ = state$.select('foo')
+  const subState$ = state$.isolate('foo')
 
   t.is(subState$._subscribers.size, 0)
   t.is(state$._subscribers.size, 0)
@@ -183,7 +183,7 @@ test('`state$.select()` returns a `subState$` that when subscribed to returns a 
 test('`subState$` setters correctly update the parent state', t => {
   const state$ = new State(initialState)
 
-  const subState$ = state$.select({
+  const subState$ = state$.isolate({
     get: state => state.foo,
     set: (state, childState) => void (state.foo = childState),
   })
@@ -201,7 +201,7 @@ test('`subState$` updates notify only once', t => {
   t.plan(2)
 
   const state$ = new State(initialState)
-  const subState$ = state$.select({
+  const subState$ = state$.isolate({
     get: state => state.foo,
     set: (state, childState) => void (state.foo = childState),
   })
@@ -215,9 +215,9 @@ test('`subState$` updates notify only once', t => {
 
 test('nested `subState$` setters correctly update the parent state', t => {
   const state$ = new State(initialState)
-  const subState1$ = state$.select('foo')
+  const subState1$ = state$.isolate('foo')
 
-  const subState2$ = subState1$.select({
+  const subState2$ = subState1$.isolate({
     get: state => state.bar,
     set: (state, childState) => void (state.bar = childState),
   })
@@ -232,12 +232,12 @@ test('nested `subState$` updates notify only once', t => {
   t.plan(6)
   const state$ = new State(initialState)
 
-  const subState1$ = state$.select({
+  const subState1$ = state$.isolate({
     get: state => state.foo,
     set: (state, childState) => void (state.foo = childState),
   })
 
-  const subState2$ = subState1$.select({
+  const subState2$ = subState1$.isolate({
     get: state => state.bar,
     set: (state, childState) => void (state.bar = childState),
   })
@@ -261,7 +261,7 @@ test('nested `subState$` emits for all incoming subscribers', async t => {
   t.plan(7)
   const state$ = new State(initialState)
 
-  const subState$ = state$.select({
+  const subState$ = state$.isolate({
     get: state => state.foo,
     set: (state, childState) => void (state.foo = childState),
   })
@@ -296,8 +296,8 @@ test('nested `subState$` emits for all incoming subscribers', async t => {
 
 test('subscribers to nested `subState$` are added to the state$ subscriber list and unsubscribe correctly', t => {
   const state$ = new State(initialState)
-  const subState1$ = state$.select('foo')
-  const subState2$ = subState1$.select('bar')
+  const subState1$ = state$.isolate('foo')
+  const subState2$ = subState1$.isolate('bar')
 
   t.is(state$._subscribers.size, 0)
   t.is(subState1$._subscribers.size, 0)
@@ -324,11 +324,11 @@ test('subscribers to nested `subState$` are added to the state$ subscriber list 
   t.is(subState2$._subscribers.size, 0)
 })
 
-test('`state$.select()` without a valid lense returns the state$', t => {
+test('`state$.isolate()` without a valid lense returns the state$', t => {
   const state$ = new State(initialState)
-  const subState1$ = state$.select()
-  const subState2$ = state$.select({})
-  const subState3$ = state$.select('')
+  const subState1$ = state$.isolate()
+  const subState2$ = state$.isolate({})
+  const subState3$ = state$.isolate('')
 
   t.is(state$, subState1$)
   t.is(state$, subState2$)

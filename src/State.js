@@ -114,7 +114,7 @@ export class State {
     }
   }
 
-  select(lens) {
+  isolate(lens) {
     if (
       lens == null ||
       (typeof lens === 'object' && !lens.get) ||
