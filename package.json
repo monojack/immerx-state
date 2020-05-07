@@ -1,0 +1,73 @@
+{
+  "name": "immerx",
+  "version": "0.0.0",
+  "description": "Reactive & fractal state management with Immer",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "scripts": {
+    "dev": "npm run build:esm -- -w",
+    "dev:esm": "npm run build:esm -- -w",
+    "dev:cjs": "npm run build:cjs -- -w",
+    "pretest": "npm run build:cjs",
+    "test": "ava --verbose --color --serial",
+    "build:esm": "BABEL_ENV=esm babel src --out-dir esm",
+    "build:cjs": "BABEL_ENV=cjs babel src --out-dir cjs",
+    "prebuild": "npm run clean",
+    "build": "npm run build:cjs && npm run build:esm",
+    "prepublish": "npm run clean && npm run build",
+    "clean": "rimraf cjs esm"
+  },
+  "ava": {
+    "files": [
+      "test/*.js",
+      "!test/mocks/**"
+    ],
+    "babel": true
+  },
+  "homepage": "https://github.com/monojack/immerx",
+  "bugs": "https://github.com/monojack/immerx/issues",
+  "npmName": "immerx",
+  "files": [
+    "esm",
+    "cjs"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Ionut Achim <achimvionut@gmail.com>",
+  "license": "ISC",
+  "keywords": [
+    "immer",
+    "state",
+    "reactive",
+    "fractal",
+    "observable"
+  ],
+  "sideEffects": false,
+  "devDependencies": {
+    "@ava/babel": "^1.0.1",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.9.0",
+    "@babel/preset-env": "^7.9.6",
+    "ava": "^3.6.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "immer": "^6.0.3",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "rxjs": "^6.5.5"
+  },
+  "peerDependencies": {
+    "immer": "^6.*"
+  }
+}

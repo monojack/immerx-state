@@ -1,0 +1,19 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "extends": ["standard", "plugin:prettier/recommended"],
+  "rules": {
+    "no-unused-expressions": "off",
+    "no-self-compare": "off",
+    "no-void": "off",
+    "camelcase": ["error", { "allow": ["^Symbol_"] }]
+  }
+}
