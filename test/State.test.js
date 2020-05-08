@@ -70,10 +70,10 @@ test('subscribers are removed when they unsubscribe', t => {
   t.is(state$._subscribers.size, 0)
 })
 
-test('you can access the current state through a `state$.state` getter', t => {
+test('you can access the current state through a `state$.value` getter', t => {
   const state$ = new State({ foo: 1 })
 
-  t.deepEqual(state$.state, { foo: 1 })
+  t.deepEqual(state$.value, { foo: 1 })
 })
 
 test("you can't overwrite the current state", t => {
@@ -81,14 +81,14 @@ test("you can't overwrite the current state", t => {
 
   t.throws(
     () => {
-      state$.state = { foo: 2 }
+      state$.value = { foo: 2 }
     },
     {
-      message: 'Cannot set property state of #<State> which has only a getter',
+      message: 'Cannot set property value of #<State> which has only a getter',
     },
   )
 
-  t.deepEqual(state$.state, { foo: 1 })
+  t.deepEqual(state$.value, { foo: 1 })
 })
 
 const initialState = {
@@ -102,7 +102,7 @@ test('`state$.update()` correctly updates the state', t => {
   t.plan(5)
   const state$ = new State(initialState)
 
-  t.is(state$.state, initialState)
+  t.is(state$.value, initialState)
   from(state$)
     .pipe(first())
     .subscribe({
@@ -188,13 +188,13 @@ test('`subState$` setters correctly update the parent state', t => {
     set: (state, childState) => void (state.foo = childState),
   })
 
-  t.is(state$.state, initialState)
-  t.is(subState$.state, initialState.foo)
+  t.is(state$.value, initialState)
+  t.is(subState$.value, initialState.foo)
 
   subState$.update(draft => void (draft.bar = { c: 3 }))
 
-  t.deepEqual(state$.state.foo.bar, { c: 3 })
-  t.deepEqual(subState$.state.bar, { c: 3 })
+  t.deepEqual(state$.value.foo.bar, { c: 3 })
+  t.deepEqual(subState$.value.bar, { c: 3 })
 })
 
 test('`subState$` updates notify only once', t => {
@@ -222,10 +222,10 @@ test('nested `subState$` setters correctly update the parent state', t => {
     set: (state, childState) => void (state.bar = childState),
   })
 
-  t.is(state$.state, initialState)
+  t.is(state$.value, initialState)
   subState2$.update(draft => void (draft.a = 4))
-  t.deepEqual(state$.state.foo.bar, { a: 4 })
-  t.deepEqual(subState2$.state, { a: 4 })
+  t.deepEqual(state$.value.foo.bar, { a: 4 })
+  t.deepEqual(subState2$.value, { a: 4 })
 })
 
 test('nested `subState$` updates notify only once', t => {

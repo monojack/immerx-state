@@ -169,7 +169,7 @@ export class State {
     this.tag = str
   }
 
-  get state() {
+  get value() {
     return hiddenState.get(this)
   }
 
