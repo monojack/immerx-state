@@ -4,7 +4,7 @@ Reactive, fractal and no-nonsense state management with [Immer](https://github.c
 
 <br/>
 
-#### `Create`
+### `Create`
 
 ```js
 import create from 'immerx'
@@ -16,7 +16,7 @@ Pretty simple - we create a new state by importing `create` and call it with an 
 
 <br/>
 
-#### `Observe`
+### `Observe`
 
 ```js
 import create from 'immerx'
@@ -32,7 +32,7 @@ Our `state$` is an [observable](https://github.com/tc39/proposal-observable) whi
 
 <br/>
 
-#### `Update`
+### `Update`
 
 The following examples assume that you already know about [Immer](https://github.com/immerjs/immer), what [drafts & producers](https://immerjs.github.io/immer/docs/produce) are and how to use them.
 
@@ -55,7 +55,7 @@ Our `state$` exposes an `update` method that takes a [curried producer](https://
 
 <br/>
 
-#### `Compose`
+### `Compose`
 
 In addition to being reactive, `state$` is also [fractal](https://staltz.com/unidirectional-user-interface-architectures.html), which allows as to create and compose smaller and isolated pieces of state where consumers will be notified only for relevant changes. Updates are also isolated so the consumer doesn't need to know anything about the "global" state:
 
@@ -92,7 +92,7 @@ childState$.update(() => 'baz')
 
 <br/>
 
-#### `Combine and compute`
+### `Combine and compute`
 
 More often than we'd like, our consumers need to combine and/or compute different pieces of state, sometimes including parts of its parent state. This type of isolation can be achieved through [`lenses`](https://medium.com/javascript-scene/lenses-b85976cb0534).
 
@@ -166,3 +166,9 @@ set: (stateDraft, userState) => {
   stateDraft.user.remainingTodos = idxs
 }
 ```
+
+<br/>
+
+### `Use with React`
+
+Check out the React bindings at [immerx-react](https://github.com/monojack/immerx-react)
