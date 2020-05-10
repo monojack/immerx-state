@@ -19,7 +19,7 @@ test('`state$` emits synchronously', t => {
       next: v => t.deepEqual(v, { foo: 1 }),
     })
 
-  state$.next({ bar: 2 })
+  state$.update(() => ({ bar: 2 }))
 })
 
 test('new subscribers are not notified if no initial state provided but will be notified as soon as there is new state', t => {
@@ -33,7 +33,7 @@ test('new subscribers are not notified if no initial state provided but will be 
     }) // nothing yet
 
   // emits new value and the above subscriber is notified
-  state$.next({ foo: 1 })
+  state$.update(() => ({ foo: 1 }))
 
   // new subscriber is immediately notified with current state
   from(state$)
