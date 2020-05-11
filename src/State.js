@@ -25,7 +25,7 @@ function makeSetter(lens) {
       if (typeof state === 'undefined') {
         return { [lens]: childState }
       } else {
-        state[lens] = childState
+        Object.assign(state[lens], childState)
       }
     }
   } else {
@@ -127,19 +127,19 @@ export class State {
     const set = makeSetter(lens)
 
     const subState$ = new State(function (subscriber) {
-        let _prevState
+      let _prevState
 
-        return source.subscribe({
-          next: n => {
-            const _nextState = get(n)
-            if (!shallowEqual(_nextState, _prevState)) {
-              _prevState = _nextState
-              subscriber.next(_nextState)
-            }
-          },
-          error: e => subscriber.error(e),
-          complete: () => subscriber.complete(),
-        })
+      return source.subscribe({
+        next: n => {
+          const _nextState = get(n)
+          if (!shallowEqual(_nextState, _prevState)) {
+            _prevState = _nextState
+            subscriber.next(_nextState)
+          }
+        },
+        error: e => subscriber.error(e),
+        complete: () => subscriber.complete(),
+      })
     })
 
     subState$.getter = get
