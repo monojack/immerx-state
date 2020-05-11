@@ -1,6 +1,6 @@
 import test from 'ava'
 import { from, noop } from 'rxjs'
-import { map, first, filter, pairwise } from 'rxjs/operators'
+import { first } from 'rxjs/operators'
 
 import { State, isObservable } from '../'
 
@@ -273,15 +273,15 @@ test('nested `subState$` updates notify only once', t => {
     set: (state, childState) => void (state.bar = childState),
   })
 
-  const sub = state$.subscribe({
+  state$.subscribe({
     next: v => t.pass(), // 2 times
   })
 
-  const sub1 = subState1$.subscribe({
+  subState1$.subscribe({
     next: v => t.pass(), // 2 times
   })
 
-  const sub2 = subState2$.subscribe({
+  subState2$.subscribe({
     next: v => t.pass(), // 2 times
   })
 
@@ -297,13 +297,13 @@ test('nested `subState$` emits for all incoming subscribers', async t => {
     set: (state, childState) => void (state.foo = childState),
   })
 
-  const sub1 = subState$.subscribe({
+  subState$.subscribe({
     next: v => t.pass(), // 2 times
   })
 
   await new Promise(resolve => {
     setTimeout(() => {
-      const sub2 = subState$.subscribe({
+      subState$.subscribe({
         next: v => t.pass(), // 2 times
       })
 
@@ -313,7 +313,7 @@ test('nested `subState$` emits for all incoming subscribers', async t => {
 
   await new Promise(resolve => {
     setTimeout(() => {
-      const sub3 = subState$.subscribe({
+      subState$.subscribe({
         next: v => t.pass(), // 2 times
       })
 
