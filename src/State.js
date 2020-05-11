@@ -35,14 +35,12 @@ function makeSetter(lens) {
 
 export class State {
   constructor(a, b, ep = false) {
-    if (typeof a === 'function' && typeof b !== 'function') {
-      hiddenState.set(this, b)
+    if (typeof a === 'function') {
       this.subscribe = a
     } else {
       hiddenState.set(this, a)
       b && (this.subscribe = b)
     }
-
     ep && enablePatches()
 
     this._patchesEnabled = ep
@@ -52,7 +50,7 @@ export class State {
   }
 
   update(cb) {
-    const _state = hiddenState.get(this)
+    const _state = this.value
 
     if (this._patchesEnabled) {
       var patches, inversePatches
@@ -64,10 +62,12 @@ export class State {
       nextState = produce(_state, cb)
     }
 
-    hiddenState.set(this, nextState)
     if (this.source) {
-      this.source.update(sourceDraft => this.setter(sourceDraft, nextState))
+      this.source.update(sourceDraft => {
+        this.setter(sourceDraft, nextState)
+      })
     } else {
+      hiddenState.set(this, nextState)
       this.next(nextState, { patches, inversePatches })
       return { state: nextState, patches, inversePatches }
     }
@@ -78,7 +78,6 @@ export class State {
       subscriber?.next?.(nextState, patches)
     })
 
-    hiddenState.set(this, nextState)
     this._middlewares.forEach(middleware => {
       middleware.call(this, patches, nextState)
     })
@@ -106,7 +105,7 @@ export class State {
       return () => {}
     }
 
-    const _state = hiddenState.get(this)
+    const _state = this.value
     typeof _state !== 'undefined' && subscriber.next(_state)
     this._subscribers.add(subscriber)
     return {
@@ -127,11 +126,7 @@ export class State {
     const get = makeGetter(lens)
     const set = makeSetter(lens)
 
-    const _initState = get(hiddenState.get(source))
-
-    const subState$ = new State(
-      _initState,
-      function (subscriber) {
+    const subState$ = new State(function (subscriber) {
         let _prevState
 
         return source.subscribe({
@@ -145,9 +140,8 @@ export class State {
           error: e => subscriber.error(e),
           complete: () => subscriber.complete(),
         })
-      },
-      source._patchesEnabled,
-    )
+    })
+
     subState$.getter = get
     subState$.setter = set
     subState$.source = source
@@ -170,7 +164,7 @@ export class State {
   }
 
   get value() {
-    return hiddenState.get(this)
+    return this.source ? this.getter(this.source.value) : hiddenState.get(this)
   }
 
   [Symbol_observable]() {

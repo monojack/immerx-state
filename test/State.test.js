@@ -180,7 +180,38 @@ test('`state$.isolate()` returns a `subState$` that when subscribed to returns a
   t.is(subState$._subscribers.size, 0)
 })
 
-test('`subState$` setters correctly update the parent state', t => {
+test('`subState$` state is correctly updated when the parent state is updated', async t => {
+  const state$ = new State(initialState)
+
+  const subState$ = state$.isolate('foo')
+
+  t.is(state$.value, initialState)
+  t.is(subState$.value, initialState.foo)
+
+  state$.update(draft => void (draft.foo.quux = { c: 3 }))
+  t.deepEqual(subState$.value.quux, { c: 3 })
+  t.is(state$.value.foo, subState$.value)
+})
+
+test('`subState$` correctly update the parent state', t => {
+  const state$ = new State(initialState)
+
+  const subState$ = state$.isolate('foo')
+
+  t.is(state$.value, initialState)
+  t.is(subState$.value, initialState.foo)
+
+  subState$.update(draft => void (draft.quux = { c: 3 }))
+
+  t.deepEqual(state$.value.foo.bar, { a: 1 })
+  t.deepEqual(state$.value.foo.quux, { c: 3 })
+  t.deepEqual(subState$.value.quux, { c: 3 })
+  t.is(state$.value.foo, subState$.value)
+  t.is(state$.value.foo.quux, subState$.value.quux)
+  t.is(state$.value.foo.baz, subState$.value.baz)
+})
+
+test('`subState$` lens setters correctly update the parent state', t => {
   const state$ = new State(initialState)
 
   const subState$ = state$.isolate({
