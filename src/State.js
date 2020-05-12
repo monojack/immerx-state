@@ -160,7 +160,7 @@ export class State {
   }
 
   tag(str) {
-    this.tag = str
+    this._tag = str
   }
 
   get value() {
