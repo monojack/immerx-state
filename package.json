@@ -1,6 +1,6 @@
 {
   "name": "immerx",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Reactive & fractal state management with Immer",
   "main": "cjs/index.js",
   "module": "esm/index.js",
