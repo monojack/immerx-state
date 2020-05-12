@@ -8,4 +8,6 @@ export function create(initialState, middleware) {
   } else if (Array.isArray(middleware) && middleware.length > 0) {
     state$.registerMiddleware(middleware)
   }
+
+  return state$
 }
