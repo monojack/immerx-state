@@ -46,7 +46,7 @@ export class State {
     this._patchesEnabled = ep
     this._closed = false
     this._subscribers = new Set()
-    this._middlewares = new Set()
+    this._middleware = new Set()
   }
 
   update(cb) {
@@ -78,8 +78,8 @@ export class State {
       subscriber?.next?.(nextState, patches)
     })
 
-    this._middlewares.forEach(middleware => {
-      middleware.call(this, patches, nextState)
+    this._middleware.forEach(middleware => {
+      middleware(patches, nextState)
     })
   }
 
@@ -149,9 +149,11 @@ export class State {
     return subState$
   }
 
-  applyMiddleware(middleware) {
+  registerMiddleware(middleware) {
     this.enablePatches()
-    this._middlewares.add(middleware)
+    middleware.forEach(m => {
+      this._middleware.add(m(this))
+    })
   }
 
   enablePatches(epics) {
