@@ -169,6 +169,41 @@ set: (stateDraft, userState) => {
 
 <br/>
 
+### `Middleware`
+
+Middleware implementations are based around immer [patches](https://immerjs.github.io/immer/docs/patches). We can register functions (middleware) with **immerx** and they will receive a reference to the `state$` and then be invoked with every patch. Based on how and where something was updated in our state, our middleware can perform side-effect and/or update the state.
+
+The middleware signature is very simple:
+
+```js
+function middleware(state$) {
+  return ({ patches, inversePatches }, state) => {
+    /**
+     * This function is called for every state update.
+     *
+     * It receives the list of patches/inversePatches
+     * and is closed over the state$ so we can use state$.update()
+     * to update the state in response
+     */
+  }
+}
+```
+
+We can now pass our middleware to `create` and it'll be registered with **immerx**
+
+```js
+import create from 'immerx'
+
+import initialState from './state'
+import middleware from './middleware'
+
+create(initialState, [middleware])
+```
+
+Check out [immerx-middleware](https://github.com/monojack/immerx-middleware) - an observable based middleware.
+
+<br/>
+
 ### `Use with React`
 
 Check out the React bindings at [immerx-react](https://github.com/monojack/immerx-react)
