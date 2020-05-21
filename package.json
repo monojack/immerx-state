@@ -68,6 +68,6 @@
     "rxjs": "^6.5.5"
   },
   "peerDependencies": {
-    "immer": "^6.*"
+    "immer": ">= 6.0.0"
   }
 }

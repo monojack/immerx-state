@@ -1,6 +1,29 @@
 ## ImmerX
 
-Reactive, fractal and no-nonsense state management with [Immer](https://github.com/immerjs/immer)
+**Reactive** and **fractal** state management with [Immer](https://github.com/immerjs/immer)
+
+<br/>
+
+**Table of contents**:
+
+- [`Install`](#install)
+- [`Create`](#create)
+- [`Observe`](#observe)
+- [`Update`](#update)
+- [`Compose`](#compose)
+- [`Combine and compute`](#combine-and-compute)
+- [`Middleware`](#middleware)
+- [`React bindings`](#use-with-react)
+
+<br/>
+
+### `Install`
+
+```sh
+npm install immerx
+```
+
+**Immer** `>= v6.0.0` is a [peer dependency](https://nodejs.org/es/blog/npm/peer-dependencies/) so make sure it's installed.
 
 <br/>
 
