@@ -1,4 +1,4 @@
-import { enablePatches, produce } from 'immer'
+import { enablePatches, produce, applyPatches } from 'immer'
 
 import { observable as Symbol_observable } from './symbol'
 import { shallowEqual } from './shallowEqual'
@@ -21,15 +21,28 @@ function makeGetter(lens) {
 
 function makeSetter(lens) {
   if (typeof lens === 'string' || typeof lens === 'number') {
-    return function lensSet(state, childState) {
+    return function lensSet(state, childState, { patches } = {}) {
       if (typeof state === 'undefined') {
         return { [lens]: childState }
       } else {
-        Object.assign(state[lens], childState)
+        if (patches) {
+          applyPatches(state[lens], patches)
+        } else {
+          // handle remove
+          for (const key of Object.keys(state[lens])) {
+            if (!(key in childState)) {
+              delete state[lens][key]
+            }
+          }
+          // handle add/change
+          for (const key of Object.keys(childState)) {
+            state[lens][key] = childState[key]
+          }
+        }
       }
     }
   } else {
-    return lens.set
+    return lens.set || (() => {})
   }
 }
 
@@ -64,7 +77,10 @@ export class State {
 
     if (this.source) {
       this.source.update(sourceDraft => {
-        this.setter(sourceDraft, nextState)
+        this.setter(sourceDraft, nextState, {
+          patches,
+          inversePatches,
+        })
       })
     } else {
       hiddenState.set(this, nextState)
