@@ -145,6 +145,7 @@ export class State {
     subState$.getter = get
     subState$.setter = set
     subState$.source = source
+    subState$._patchesEnabled = source._patchesEnabled
 
     return subState$
   }
