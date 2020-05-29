@@ -1,5 +1,6 @@
-<img src="images/immerx-logo.svg" height="70px" align="right"/>
-## ImmerX
+<img src="images/immerx-logo.svg" height="70px"/>
+
+<br/>
 
 **Reactive** and **fractal** state management with [Immer](https://github.com/immerjs/immer)
 
