@@ -22,7 +22,7 @@
 ### `Install`
 
 ```sh
-npm install immerx
+npm install @immerx/state
 ```
 
 **Immer** `>= v6.0.0` is a [peer dependency](https://nodejs.org/es/blog/npm/peer-dependencies/) so make sure it's installed.
@@ -32,7 +32,7 @@ npm install immerx
 ### `Create`
 
 ```js
-import create from 'immerx'
+import create from '@immerx/state'
 
 const state$ = create({ count: 0 })
 ```
@@ -44,7 +44,7 @@ Pretty simple - we create a new state by importing `create` and call it with an 
 ### `Observe`
 
 ```js
-import create from 'immerx'
+import create from '@immerx/state'
 
 const state$ = create({ count: 0 })
 state$.subscribe({
@@ -62,7 +62,7 @@ Our `state$` is an [observable](https://github.com/tc39/proposal-observable) whi
 The following examples assume that you already know about [Immer](https://github.com/immerjs/immer), what [drafts & producers](https://immerjs.github.io/immer/docs/produce) are and how to use them.
 
 ```js
-import create from 'immerx'
+import create from '@immerx/state'
 
 const state$ = create({ count: 0 })
 state$.subscribe({
@@ -85,7 +85,7 @@ Our `state$` exposes an `update` method that takes a [curried producer](https://
 In addition to being reactive, `state$` is also [fractal](https://staltz.com/unidirectional-user-interface-architectures.html), which allows as to create and compose smaller and isolated pieces of state where consumers will be notified only for relevant changes. Updates are also isolated so the consumer doesn't need to know anything about the "global" state:
 
 ```js
-import create from 'immerx'
+import create from '@immerx/state'
 
 const state$ = create({ parent: { child: 'foo' } })
 
@@ -124,7 +124,7 @@ More often than we'd like, our consumers need to combine and/or compute differen
 > Lenses allow you to abstract state shape behind getters and setters.
 
 ```js
-import create from 'immerx'
+import create from '@immerx/state'
 
 const INITIAL_STATE = {
   user: { name: 'John', remainingTodos: [1, 2] },
@@ -217,7 +217,7 @@ function middleware(state$) {
 We can now pass our middleware to `create` and it'll be registered with **immerx**
 
 ```js
-import create from 'immerx'
+import create from '@immerx/state'
 
 import initialState from './state'
 import middleware from './middleware'
