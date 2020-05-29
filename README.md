@@ -1,4 +1,4 @@
-<img src="images/immerx-logo.svg" height="70px"/>
+<img src="images/immerx-state-logo.svg" height="70px"/>
 
 <br/>
 
