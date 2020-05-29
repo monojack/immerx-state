@@ -24,8 +24,8 @@
     ],
     "babel": true
   },
-  "homepage": "https://github.com/monojack/immerx",
-  "bugs": "https://github.com/monojack/immerx/issues",
+  "homepage": "https://github.com/monojack/immerx-state",
+  "bugs": "https://github.com/monojack/immerx-state/issues",
   "npmName": "immerx",
   "files": [
     "esm",
