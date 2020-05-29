@@ -26,7 +26,6 @@
   },
   "homepage": "https://github.com/monojack/immerx-state",
   "bugs": "https://github.com/monojack/immerx-state/issues",
-  "npmName": "immerx",
   "files": [
     "esm",
     "cjs"
@@ -64,8 +63,10 @@
     "eslint-plugin-standard": "^4.0.1",
     "immer": "^6.0.3",
     "prettier": "^2.0.5",
+    "read-pkg": "^5.2.0",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.5.5"
+    "rxjs": "^6.5.5",
+    "write-pkg": "^4.0.0"
   },
   "peerDependencies": {
     "immer": ">= 6.0.0"
