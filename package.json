@@ -1,5 +1,5 @@
 {
-  "name": "immerx",
+  "name": "@immerx/state",
   "version": "3.2.1",
   "description": "Reactive & fractal state management with Immer",
   "main": "cjs/index.js",

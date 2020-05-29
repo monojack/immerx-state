@@ -4,4 +4,4 @@ const readPackage = require('read-pkg')
 const opts = { normalize: false }
 const json = readPackage.sync(opts)
 
-writePackage({ ...json, name: `@immerx/state` })
+writePackage({ ...json, name: `immerx` })

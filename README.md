@@ -1,7 +1,5 @@
 <img src="images/immerx-state-logo.svg" height="70px"/>
 
-<br/>
-
 **Reactive** and **fractal** state management with [Immer](https://github.com/immerjs/immer)
 
 <br/>
@@ -87,7 +85,7 @@ In addition to being reactive, `state$` is also [fractal](https://staltz.com/uni
 ```js
 import create from '@immerx/state'
 
-const state$ = create({ parent: { child: 'foo' } })
+const state$ = create({ parent: { child: { name: 'foo' } } })
 
 const parentState$ = state$.isolate('parent')
 const childState$ = parentState$.isolate('child')
@@ -95,22 +93,22 @@ const childState$ = parentState$.isolate('child')
 parentState$.subscribe({
   next: v => console.log('parent state: ', v),
 })
-// > parent state: { child: "foo" }
+// > parent state: { child: { name: "foo" } }
 
 childState$.subscribe({
   next: v => console.log('child state: ', v),
 })
-// > child state: foo
+// > child state: { name: "foo" }
 
 state$.update(draft => void (draft.otherParent = {}))
 /* nothing logged after this update */
 
 parentState$.update(parentDraft => void (parentDraft.sibling = 'bar'))
-// > parent state: { child: "foo", sibling: "bar" }
+// > parent state: { child: { name: "foo" }, sibling: "bar" }
 
 childState$.update(() => 'baz')
-// > parent state: { child: "baz", sibling: "bar" }
-// > child state: "baz"
+// > parent state: { child: { name: "baz" }, sibling: "bar" }
+// > child state: { name: "baz" }
 ```
 
 [![Edit immerx-fractal-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/falling-pine-ndiue?fontsize=14&hidenavigation=1&theme=dark)
