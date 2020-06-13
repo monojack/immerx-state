@@ -14,6 +14,7 @@
 - [`Combine and compute`](#combine-and-compute)
 - [`Middleware`](#middleware)
 - [`React bindings`](#use-with-react)
+- [`Developer tools`](#developer-tools)
 
 <br/>
 
@@ -223,10 +224,18 @@ import middleware from './middleware'
 create(initialState, [middleware])
 ```
 
-Check out [immerx-middleware](https://github.com/monojack/immerx-middleware) - an observable based middleware.
+Check out [@immerx/observable](https://github.com/monojack/immerx-observable) - an observable based middleware.
 
 <br/>
 
 ### `Use with React`
 
-Check out the React bindings at [immerx-react](https://github.com/monojack/immerx-react)
+Check out the React bindings at [@immerx/react](https://github.com/monojack/immerx-react)
+
+<br/>
+
+### `Developer tools`
+
+The [@immerx/devtools](https://github.com/monojack/immerx-devtools) component provides an overview of all the state changes.
+
+There is a [Chrome Devtools](https://chrome.google.com/webstore/detail/immerx-devtools/jchcefekimgnfceonnnekpgmphepengp) extension available but it can also be rendered inline, either manually by using the exported **React component**, or as part of an **iframe** if you're not using React.
