@@ -26,7 +26,11 @@ function makeSetter(lens) {
         return { [lens]: childState }
       } else {
         if (patches) {
-          applyPatches(state[lens], patches)
+          if (patches.length === 1 && patches[0].path == '') {
+            state[lens] = patches[0].value
+          } else {
+            applyPatches(state[lens], patches)
+          }
         } else {
           // handle remove
           for (const key of Object.keys(state[lens])) {
